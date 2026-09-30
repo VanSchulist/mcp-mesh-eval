@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" width="1000" height="580">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#141824" />
+      <stop offset="100%" stop-color="#080b11" />
+    </radialGradient>
+    <linearGradient id="rawBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#f87171" />
+    </linearGradient>
+    <linearGradient id="meshBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="580" rx="16" fill="url(#bgGlow)" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Header -->
+  <g transform="translate(45, 45)">
+    <text y="0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#94a3b8" letter-spacing="1.5">EXISTENTIAL CLOUD RESEARCH</text>
+    <text y="30" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="24" font-weight="800" fill="#ffffff">
+      mcp-mesh-eval: Turn-0 Token Overhead &amp; TTFT Latency (60 Enterprise Tools)
+    </text>
+    <text y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#64748b">
+      Comparing Raw MCP static injection (~9.8k tokens) vs. mcp-mesh lazy meta-tools (384 tokens)
+    </text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(680, 50)">
+    <rect width="14" height="14" rx="4" fill="url(#rawBarGrad)" />
+    <text x="22" y="12" font-family="sans-serif" font-size="13" font-weight="600" fill="#cbd5e1">Raw MCP (Static)</text>
+    <rect x="155" width="14" height="14" rx="4" fill="url(#meshBarGrad)" />
+    <text x="177" y="12" font-family="sans-serif" font-size="13" font-weight="600" fill="#34d399">mcp-mesh Gateway</text>
+  </g>
+
+  <!-- Chart Columns -->
+  <g transform="translate(45, 140)">
+    <!-- Row: GPT-6 Astra -->
+    <g transform="translate(0, 0)">
+      <text y="16" font-family="sans-serif" font-size="14" font-weight="700" fill="#f8fafc">GPT-6 Astra (OpenAI)</text>
+      <text y="34" font-family="sans-serif" font-size="12" fill="#94a3b8">TTFT Latency: 1152.2ms vs 352.6ms (-69%)</text>
+      <rect x="230" y="4" width="480" height="18" rx="4" fill="url(#rawBarGrad)" />
+      <text x="720" y="18" font-family="monospace" font-size="12" fill="#f87171" font-weight="700">9,790 tokens ($97.90/1k)</text>
+      <rect x="230" y="26" width="18" height="18" rx="4" fill="url(#meshBarGrad)" />
+      <text x="258" y="40" font-family="monospace" font-size="12" fill="#34d399" font-weight="700">384 tokens ($3.84/1k) [-96.1%]</text>
+    </g>
+    <!-- Row: GPT-6.1 Sol -->
+    <g transform="translate(0, 70)">
+      <text y="16" font-family="sans-serif" font-size="14" font-weight="700" fill="#f8fafc">GPT-6.1 Sol (OpenAI)</text>
+      <text y="34" font-family="sans-serif" font-size="12" fill="#94a3b8">TTFT Latency: 620.5ms vs 197.3ms (-68%)</text>
+      <rect x="230" y="4" width="480" height="18" rx="4" fill="url(#rawBarGrad)" />
+      <text x="720" y="18" font-family="monospace" font-size="12" fill="#f87171" font-weight="700">9,790 tokens ($19.58/1k)</text>
+      <rect x="230" y="26" width="18" height="18" rx="4" fill="url(#meshBarGrad)" />
+      <text x="258" y="40" font-family="monospace" font-size="12" fill="#34d399" font-weight="700">384 tokens ($0.77/1k) [-96.1%]</text>
+    </g>
+    <!-- Row: Claude Sonnet 5.5 -->
+    <g transform="translate(0, 140)">
+      <text y="16" font-family="sans-serif" font-size="14" font-weight="700" fill="#f8fafc">Claude Sonnet 5.5 (Anthropic)</text>
+      <text y="34" font-family="sans-serif" font-size="12" fill="#94a3b8">TTFT Latency: 601.2ms vs 206.1ms (-66%)</text>
+      <rect x="230" y="4" width="480" height="18" rx="4" fill="url(#rawBarGrad)" />
+      <text x="720" y="18" font-family="monospace" font-size="12" fill="#f87171" font-weight="700">9,790 tokens ($19.58/1k)</text>
+      <rect x="230" y="26" width="18" height="18" rx="4" fill="url(#meshBarGrad)" />
+      <text x="258" y="40" font-family="monospace" font-size="12" fill="#34d399" font-weight="700">384 tokens ($0.77/1k) [-96.1%]</text>
+    </g>
+    <!-- Row: Gemini 3.8 Flash -->
+    <g transform="translate(0, 210)">
+      <text y="16" font-family="sans-serif" font-size="14" font-weight="700" fill="#f8fafc">Gemini 3.8 Flash (Google DeepMind)</text>
+      <text y="34" font-family="sans-serif" font-size="12" fill="#94a3b8">TTFT Latency: 271.2ms vs 101.9ms (-62%)</text>
+      <rect x="230" y="4" width="480" height="18" rx="4" fill="url(#rawBarGrad)" />
+      <text x="720" y="18" font-family="monospace" font-size="12" fill="#f87171" font-weight="700">9,790 tokens ($7.34/1k)</text>
+      <rect x="230" y="26" width="18" height="18" rx="4" fill="url(#meshBarGrad)" />
+      <text x="258" y="40" font-family="monospace" font-size="12" fill="#34d399" font-weight="700">384 tokens ($0.29/1k) [-96.1%]</text>
+    </g>
+    <!-- Row: DeepSeek-V4.1-Flash -->
+    <g transform="translate(0, 280)">
+      <text y="16" font-family="sans-serif" font-size="14" font-weight="700" fill="#f8fafc">DeepSeek-V4.1-Flash (DeepSeek)</text>
+      <text y="34" font-family="sans-serif" font-size="12" fill="#94a3b8">TTFT Latency: 453.3ms vs 152.3ms (-66%)</text>
+      <rect x="230" y="4" width="480" height="18" rx="4" fill="url(#rawBarGrad)" />
+      <text x="720" y="18" font-family="monospace" font-size="12" fill="#f87171" font-weight="700">9,790 tokens ($1.47/1k)</text>
+      <rect x="230" y="26" width="18" height="18" rx="4" fill="url(#meshBarGrad)" />
+      <text x="258" y="40" font-family="monospace" font-size="12" fill="#34d399" font-weight="700">384 tokens ($0.06/1k) [-96.1%]</text>
+    </g>
+  </g>
+
+  <!-- Bottom Summary Stats -->
+  <g transform="translate(45, 515)">
+    <line x1="0" y1="0" x2="910" y2="0" stroke="#1e293b" stroke-width="1" />
+    <text y="30" font-family="sans-serif" font-size="13" font-weight="700" fill="#34d399">
+      Average Impact: -96.1% Turn-0 Tokens | -66.7% TTFT Latency | +4.0% Tool Selection Accuracy
+    </text>
+    <text x="910" y="30" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="end">
+      www.existentialcloud.ccwu.cc
+    </text>
+  </g>
+</svg>
