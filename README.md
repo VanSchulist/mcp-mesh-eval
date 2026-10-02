@@ -84,6 +84,7 @@ python main.py --run --report --chart
 ## 🔗 Related Projects
 
 - **[`mcp-mesh`](https://github.com/VanSchulist/mcp-mesh)**: The official Model Context Protocol dynamic gateway and lazy tool router.
+- **[`mcp-registry-cli`](https://github.com/VanSchulist/mcp-registry-cli)**: The zero-config community package manager & discovery registry for MCP servers.
 - **[Existential Cloud AI Studio](https://www.existentialcloud.ccwu.cc)**: Official research portal, architecture blueprints, and interactive live simulator.
 
 ---
