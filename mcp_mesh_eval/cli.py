@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 
-from .engine import BenchmarkHarness
+from .engine import BenchmarkHarness, DEFAULT_META_TOOLS
 from .reporter import BenchmarkReporter
+from .live_harness import LiveHarness
 
 
 def main() -> None:
@@ -39,7 +41,17 @@ def main() -> None:
     parser.add_argument(
         "--run",
         action="store_true",
-        help="Execute the full benchmark suite immediately",
+        help="Execute the full analytical simulation benchmark suite",
+    )
+    parser.add_argument(
+        "--live",
+        action="store_true",
+        help="Run live empirical API benchmark (supports OPENAI_API_KEY or --dry-run)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Simulate live API calls locally without network transmission",
     )
 
     args = parser.parse_args()
@@ -52,6 +64,42 @@ def main() -> None:
     if not os.path.exists(tools_p) or not os.path.exists(intents_p):
         sys.stderr.write(f"Error: dataset file not found at '{tools_p}' or '{intents_p}'\n")
         sys.exit(1)
+
+    with open(tools_p, "r", encoding="utf-8") as f:
+        tools_data = json.load(f)
+    with open(intents_p, "r", encoding="utf-8") as f:
+        intents_data = json.load(f)
+
+    if args.live:
+        print("=" * 80)
+        print("  mcp-mesh-eval: Empirical Live API Evaluation Harness")
+        print("=" * 80)
+        live = LiveHarness(tools=tools_data, meta_tools=DEFAULT_META_TOOLS)
+        api_key = os.environ.get("OPENAI_API_KEY")
+
+        if api_key and not args.dry_run:
+            print("[*] OPENAI_API_KEY detected. Executing live frontier model evaluation...")
+            test_prompt = "Find a tool to inspect table columns in a postgres database"
+            raw_res = live.execute_openai_turn(api_key=api_key, model="gpt-4o", mode="raw", prompt=test_prompt)
+            mesh_res = live.execute_openai_turn(api_key=api_key, model="gpt-4o", mode="mesh", prompt=test_prompt)
+            print(f"[+] Raw 60 Tools Prompt Tokens: {raw_res.actual_prompt_tokens:,} tokens ({raw_res.latency_ms:.1f}ms)")
+            print(f"[+] mcp-mesh 4 Tools Prompt Tok: {mesh_res.actual_prompt_tokens:,} tokens ({mesh_res.latency_ms:.1f}ms)")
+            savings = raw_res.actual_prompt_tokens - mesh_res.actual_prompt_tokens
+            pct = (savings / raw_res.actual_prompt_tokens) * 100.0 if raw_res.actual_prompt_tokens > 0 else 0
+            print(f"[+] Empirical Savings: {savings:,} tokens ({pct:.1f}% reduction)")
+        else:
+            print("[i] Running in empirical dry-run mode (no API key required / --dry-run specified).")
+            raw_meas = live.run_mock_turn("raw", "inspect postgres database table")
+            mesh_meas = live.run_mock_turn("mesh", "inspect postgres database table")
+            print(f"    Raw 60 Tools Schema Size : {len(json.dumps(live.format_raw_tools_openai())):,} characters")
+            print(f"    Gateway 4 Meta-Tools Size : {len(json.dumps(live.format_mesh_tools_openai())):,} characters")
+            print(f"    Simulated Raw Tokens      : ~{raw_meas.actual_prompt_tokens:,} tokens")
+            print(f"    Simulated Gateway Tokens  : ~{mesh_meas.actual_prompt_tokens:,} tokens")
+            pct = ((raw_meas.actual_prompt_tokens - mesh_meas.actual_prompt_tokens) / raw_meas.actual_prompt_tokens) * 100.0
+            print(f"    Simulated Token Reduction : {pct:.1f}%\n")
+            print("[+] Live API harness ready for deployment with OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY.")
+            print("=" * 80)
+        return
 
     harness = BenchmarkHarness(tools_path=tools_p, intents_path=intents_p)
     results = harness.run_all()
