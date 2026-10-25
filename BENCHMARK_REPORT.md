@@ -1,7 +1,8 @@
-# 📊 `mcp-mesh-eval` Benchmark Report
+# 📊 `mcp-mesh-eval` Benchmark Simulation Report
 
-> **Empirical Evaluation of Dynamic MCP Gateway Routing vs. Static Schema Injection**  
-> *Conducted: September 2026 | Suite: 60 Production Tools across 6 Servers | 50 Real-World Intents*
+> **Analytical Simulation: Dynamic MCP Gateway Routing vs. Static Schema Injection**  
+> *Conducted: September 2026 | Suite: 60 Production Tools across 6 Servers | 50 Real-World Intents*  
+> *Note: Token counts estimated via JSON serialization (chars / 3.4). Latency and costs projected via analytical performance models; live LLM API calls are not performed in this simulation.*
 
 ---
 
@@ -9,51 +10,57 @@
 
 Connecting autonomous agents to multiple enterprise Model Context Protocol (MCP) servers (GitHub, PostgreSQL, Slack, AWS, Filesystem, Stripe) introduces massive prompt token overhead and attention degradation.
 
-In this benchmark, we evaluate **60 real-world MCP tools** across **6 frontier AI models** comparing:
+In this analytical simulation benchmark, we evaluate **60 real-world MCP tools** across **6 frontier AI model profiles** comparing:
 1. **Baseline (Raw MCP)**: Full static injection of 60 JSON schemas into the system prompt.
-2. **mcp-mesh Gateway**: Dynamic lazy tool routing exposing only 3 compact meta-tools (`mesh_search_tools`, `mesh_describe_tool`, `mesh_invoke_tool`).
+2. **mcp-mesh Gateway**: Dynamic lazy tool routing exposing only 4 compact meta-tools (`mesh_search_tools`, `mesh_describe_tool`, `mesh_invoke_tool`, `mesh_status`).
 
-### 🏆 Key Findings
+### 🏆 Key Findings (Simulated & Projected)
 
-- 📉 **Token Reduction**: Turn-0 token footprint plummets from **~13,200 tokens to 384 tokens** (a consistent **97.1% reduction**).
-- ⚡ **First-Token Latency (TTFT)**: Model response latency is slashed by **65%–76%**, saving up to **1.1 seconds** of wait time per user interaction.
-- 💰 **Financial Economy**: API costs drop by **over 97%**. On flagship models like GPT-6 Astra, operating cost falls from **$132.40 per 1,000 turns to just $3.84**.
-- 🎯 **Tool Selection Accuracy**: Eliminating 57 distractor schemas from the system prompt increases tool selection accuracy from **92.0%–96.0% up to 98.0%**.
-
----
-
-## 📈 Quantitative Benchmark Data
-
-| Model | Provider | Turn-0 Tokens (Raw) | Turn-0 Tokens (Mesh) | Token Reduction | Raw TTFT | Mesh TTFT | Latency Cut | Raw Cost (1k turns) | Mesh Cost (1k turns) | Net Savings |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **GPT-6 Astra** | OpenAI | 9,790 | 384 | **96.1%** | 1152.2ms | 352.6ms | **-69.4%** | $97.90 | $3.84 | **96.1%** |
-| **GPT-6.1 Sol** | OpenAI | 9,790 | 384 | **96.1%** | 620.5ms | 197.3ms | **-68.2%** | $19.58 | $0.77 | **96.1%** |
-| **Claude Sonnet 5.5** | Anthropic | 9,790 | 384 | **96.1%** | 601.2ms | 206.1ms | **-65.7%** | $19.58 | $0.77 | **96.1%** |
-| **Claude Opus 5.5** | Anthropic | 9,790 | 384 | **96.1%** | 1310.0ms | 416.5ms | **-68.2%** | $117.48 | $4.61 | **96.1%** |
-| **Gemini 3.8 Flash** | Google DeepMind | 9,790 | 384 | **96.1%** | 271.2ms | 101.9ms | **-62.4%** | $7.34 | $0.29 | **96.1%** |
-| **DeepSeek-V4.1-Flash** | DeepSeek | 9,790 | 384 | **96.1%** | 453.3ms | 152.3ms | **-66.4%** | $1.47 | $0.06 | **96.0%** |
+- 📉 **Token Reduction**: Turn-0 token footprint drops from **~9,790 estimated tokens to 527 tokens** (an estimated **94.6% reduction**).
+- ⚡ **First-Token Latency (TTFT)**: Projected model response pre-fill latency is reduced by **61.5%–68.3%** across simulated model profiles.
+- 💰 **Financial Economy**: Projected input token costs drop by **94.6%**. On high-tier models like GPT-6 Astra, projected Turn-0 operating cost falls from **$97.90 per 1,000 turns to just $5.27**.
+- 🎯 **Tool Selection Accuracy**: Eliminating distractor schemas from the system prompt yields a simulated selection accuracy of **98.0%** (via BM25 retrieval) compared to **92.0%–96.0%** in the attention degradation baseline model.
 
 ---
 
-## 🔬 Methodology & Test Suite
+## 📈 Quantitative Simulation Data
 
-### 1. Dataset Construction
-- **60 Production Tools**: 10 tools per server across 6 enterprise domains (GitHub, PostgreSQL, Slack, AWS Cloud, Filesystem, Stripe). Each tool contains full typed parameter schemas (`type`, `properties`, `required`).
-- **50 Real-World Evaluation Intents**: Diverse multi-step developer queries spanning code maintenance, database introspection, CloudWatch telemetry, infrastructure scaling, and customer billing.
+| Model Profile | Provider | Input Price ($/1M) | Turn-0 Tokens (Raw Est.) | Turn-0 Tokens (Mesh Est.) | Token Reduction | Projected Raw TTFT | Projected Mesh TTFT | Latency Cut | Projected Raw Cost (1k turns) | Projected Mesh Cost (1k turns) | Net Savings |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **GPT-6 Astra** | OpenAI | $10.00 | 9,790 | 527 | **94.6%** | 1152.2ms | 364.8ms | **-68.3%** | $97.90 | $5.27 | **94.6%** |
+| **GPT-6.1 Sol** | OpenAI | $2.00 | 9,790 | 527 | **94.6%** | 620.5ms | 203.7ms | **-67.2%** | $19.58 | $1.05 | **94.6%** |
+| **Claude Sonnet 5.5** | Anthropic | $2.00 | 9,790 | 527 | **94.6%** | 601.2ms | 212.1ms | **-64.7%** | $19.58 | $1.05 | **94.6%** |
+| **Claude Opus 5.5** | Anthropic | $12.00 | 9,790 | 527 | **94.6%** | 1310.0ms | 430.1ms | **-67.2%** | $117.48 | $6.32 | **94.6%** |
+| **Gemini 3.8 Flash** | Google DeepMind | $0.75 | 9,790 | 527 | **94.6%** | 271.2ms | 104.5ms | **-61.5%** | $7.34 | $0.40 | **94.6%** |
+| **DeepSeek-V4.1-Flash** | DeepSeek | $0.15 | 9,790 | 527 | **94.6%** | 453.3ms | 156.9ms | **-65.4%** | $1.47 | $0.08 | **94.6%** |
 
-### 2. Evaluated Models (September 2026 Frontier)
-- **OpenAI GPT-6 Astra**: Flagship frontier reasoning model ($10.00 / 1M input).
-- **OpenAI GPT-6.1 Sol**: High-efficiency agentic model ($2.00 / 1M input).
-- **Anthropic Claude 5.5 Sonnet**: Industry-standard coding and tool-use model ($2.00 / 1M input).
-- **Anthropic Claude 5.5 Opus**: Maximum-capability agentic model ($12.00 / 1M input).
-- **Google DeepMind Gemini 3.8 Flash**: Ultra-low-latency multimodal model ($0.75 / 1M input).
-- **DeepSeek DeepSeek-V4.1-Flash**: High-throughput cost-optimized model ($0.15 / 1M input).
+---
+
+## 🔬 Methodology & Simulation Assumptions
+
+### 1. Token Estimation Methodology
+- **Character Heuristic**: Token counts are estimated using the standard empirical ratio for JSON schema payloads: `tokens = total_compact_json_chars / 3.4`.
+- **Raw MCP Baseline**: All 60 tool schemas from `evals/tools_60.json` are serialized to compact JSON and summed (~9,790 tokens).
+- **mcp-mesh Gateway**: The 4 active gateway meta-tools (`mesh_search_tools`, `mesh_describe_tool`, `mesh_invoke_tool`, `mesh_status`) are serialized to compact JSON and summed (~527 tokens).
+
+### 2. Latency Projection Model
+- Time-To-First-Token (TTFT) is projected using linear pre-fill extrapolation:
+  `TTFT = ttft_base_ms + (input_tokens / 1000) * ms_per_k_input_tokens`
+- Base latencies and scaling coefficients are derived from vendor technical specifications and published attention benchmarks.
+
+### 3. Cost Calculation Formula
+- Cost per 1,000 turns is computed as:
+  `Cost = (input_tokens / 1,000,000) * input_price_per_m * 1000`
+- Assumes 1,000 user turns where Turn-0 tool schemas are injected on each request. Does not include user prompt or tool output tokens.
+
+### 4. Important Disclaimer
+- **Simulation Notice**: This harness performs analytical modeling based on deterministic schemas, BM25 retrieval, and mathematical projection formulas. It does not issue live HTTP requests to third-party LLM APIs. Live empirical testing across frontier models is planned for future releases.
 
 ---
 
 ## 🚀 Reproducibility
 
-To reproduce this benchmark suite locally:
+To reproduce this simulation suite locally:
 ```bash
 git clone https://github.com/VanSchulist/mcp-mesh-eval.git
 cd mcp-mesh-eval
