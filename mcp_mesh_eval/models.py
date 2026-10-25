@@ -1,4 +1,8 @@
 """Frontier model specifications, pricing, and latency profiles (September 2026).
+
+Note: Performance metrics (ttft_base_ms, ms_per_k_input_tokens, raw_attention_decay)
+are analytical simulation parameters calibrated from published vendor model cards and
+empirical LLM attention decay literature, NOT real-time live API execution measurements.
 """
 
 from __future__ import annotations
@@ -8,7 +12,7 @@ from typing import Dict
 
 @dataclass(frozen=True)
 class ModelProfile:
-    """Represents a frontier model's performance and cost parameters."""
+    """Represents a frontier model's performance and cost parameters for simulation."""
     model_id: str
     display_name: str
     provider: str
@@ -17,10 +21,10 @@ class ModelProfile:
     ttft_base_ms: float        # Base Time-To-First-Token overhead (ms)
     ms_per_k_input_tokens: float  # Latency scaling per 1,000 input tokens
     context_window: int        # Maximum context window in tokens
-    raw_attention_decay: float  # Accuracy degradation factor under 60-tool raw schema overload
+    raw_attention_decay: float  # Simulated accuracy degradation factor under 60-tool raw schema overload
 
 
-# September 2026 Frontier Models Evaluation Suite
+# September 2026 Frontier Models Evaluation Suite (Analytical Profiles)
 FRONTIER_MODELS: Dict[str, ModelProfile] = {
     "gpt-6-astra": ModelProfile(
         model_id="gpt-6-astra",
@@ -31,7 +35,7 @@ FRONTIER_MODELS: Dict[str, ModelProfile] = {
         ttft_base_ms=320.0,
         ms_per_k_input_tokens=85.0,
         context_window=1_000_000,
-        raw_attention_decay=0.04,  # Drops ~4% accuracy under 13k tool schema flood
+        raw_attention_decay=0.04,  # Drops ~4% accuracy under schema flood
     ),
     "gpt-6.1-sol": ModelProfile(
         model_id="gpt-6.1-sol",
